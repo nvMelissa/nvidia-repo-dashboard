@@ -13,11 +13,30 @@ export default function DashboardPage() {
           {/* Bug Dashboard */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-6">NVIDIA Repository Dashboard</h1>
-            {/* Full Interactive Dashboard */}
-            <BugDashboard 
-              initialIssues={[]} 
-              initialRepository={'lightning-thunder'}
-            />
+            {/* Debug: Test if BugDashboard loads at all */}
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+              <h2 className="text-xl font-bold text-green-800 mb-2">🔍 Debug: Testing BugDashboard Component</h2>
+              <p className="text-green-700 mb-4">If you see this green box but nothing below it, the BugDashboard component is failing.</p>
+            </div>
+
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <h3 className="text-lg font-bold text-blue-800 mb-4">Loading BugDashboard...</h3>
+              <div className="mb-4">
+                <div className="animate-pulse bg-blue-200 h-4 rounded mb-2"></div>
+                <div className="animate-pulse bg-blue-200 h-4 rounded w-3/4"></div>
+              </div>
+              
+              <BugDashboard 
+                initialIssues={[]} 
+                initialRepository={'lightning-thunder'}
+              />
+              
+              <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded">
+                <p className="text-yellow-800 text-sm">
+                  ⚠️ If you see this yellow box, the BugDashboard rendered but might be empty.
+                </p>
+              </div>
+            </div>
           </div>
           
           {/* Additional Info Section */}
