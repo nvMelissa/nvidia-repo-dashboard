@@ -4,17 +4,33 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:optimized": "NODE_OPTIONS='--max-old-space-size=4096 --max-semi-space-size=512' next dev --turbopack",
+    "dev:production": "NODE_ENV=production NODE_OPTIONS='--max-old-space-size=4096' next dev --turbopack",
     "build": "next build",
+    "build:optimized": "NODE_OPTIONS='--max-old-space-size=8192' next build",
     "start": "next start",
-    "lint": "next lint"
+    "start:optimized": "NODE_OPTIONS='--max-old-space-size=4096' next start",
+    "lint": "next lint",
+    "export": "next build",
+    "deploy": "npm run export && touch out/.nojekyll",
+    "health": "node -e \"console.log('🏥 System Health:'); console.log('Node version:', process.version); console.log('Memory:', Math.round(process.memoryUsage().heapUsed/1024/1024) + 'MB'); console.log('Platform:', process.platform);\"",
+    "optimize": "./optimize-dashboard.sh",
+    "dashboard:nvfuser": "npm run dev:optimized & sleep 4 && open 'http://localhost:3000/dashboard?repo=Fuser'",
+    "dashboard:thunder": "npm run dev:optimized & sleep 4 && open 'http://localhost:3000/dashboard?repo=lightning-thunder'",
+    "dashboard:te": "npm run dev:optimized & sleep 4 && open 'http://localhost:3000/dashboard?repo=TransformerEngine'"
   },
   "dependencies": {
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.53.0",
+    "@tanstack/react-query": "^5.84.1",
+    "chart.js": "^4.5.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^4.1.0",
     "next": "15.4.5",
     "react": "19.1.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {

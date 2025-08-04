@@ -1,0 +1,19 @@
+
+        # TransformerEngine Bug Burn Rate Report
+        Generated: 2025-07-31 20:51:04
+        
+        ## Summary Statistics
+        - **Total Issues (last 90 days)**: 20
+        - **Total Bugs**: 11
+        - **Open Bugs**: 7
+        - **Closed Bugs**: 4
+        - **Bug Burn Rate**: 36.4%
+        
+        ## Recent Activity
+        
+### Most Recent Bugs:
+- #2011: [basic_linear] dtype inference is incorrect. (open)
+- #2010: Installation Failure with PyTorch 2.5.1 + CUDA 12.1 on L40S GPU (open)
+- #1987: _flash_attn_forward() missing `v_descale` when enabling context parallel (open)
+- #1986: FusedAdam step counter desynchronizes across DP ranks with empty param_groups (open)
+- #1981: FileNotFoundError: Could not find shared object file for Transformer Engine torch lib (open)

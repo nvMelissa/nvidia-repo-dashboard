@@ -1,0 +1,400 @@
+# Cursor Rules for Next.js + Supabase + TypeScript Project
+
+## Tech Stack Context
+- Next.js 15 with App Router
+- React 19
+- TypeScript 5
+- Supabase (SSR + Auth)
+- Tailwind CSS 4
+- ESLint
+
+## Code Style & Structure
+
+### File Organization
+- Use kebab-case for file and folder names
+- Place reusable components in `src/components/`
+- Keep Supabase utilities in `src/lib/supabase/`
+- Use page.tsx for route components in app directory
+- Group related functionality in feature folders
+
+### TypeScript Guidelines
+- Always use TypeScript for all files
+- Define interfaces for component props
+- Use strict type checking
+- Create types for Supabase database schemas
+- Prefer `type` over `interface` for simple object shapes
+- Use `interface` for extensible object definitions
+
+### React/Next.js Patterns
+- Use Server Components by default
+- Add 'use client' only when necessary (state, effects, browser APIs)
+- Prefer async Server Components for data fetching
+- Use proper error boundaries and loading states
+- Implement proper metadata for SEO
+
+### Supabase Best Practices
+- Always use SSR helpers (@supabase/ssr) for server-side operations
+- Create separate client instances for client/server
+- Handle auth state properly with middleware
+- Type database operations with generated types
+- Use Row Level Security (RLS) policies
+- Always handle Supabase errors gracefully
+
+### Component Guidelines
+- Use functional components with TypeScript
+- Props should be explicitly typed
+- Use React.FC sparingly, prefer explicit function declarations
+- Implement proper error boundaries
+- Use semantic HTML elements
+- Follow accessibility best practices
+
+### Styling
+- Use Tailwind CSS utility classes
+- Prefer composition over complex custom CSS
+- Use CSS variables for theming (--font-geist-sans, --font-geist-mono)
+- Maintain responsive design principles
+- Follow consistent spacing patterns
+
+### Data Fetching
+- Use Supabase client for data operations
+- Implement proper loading and error states
+- Use React Query/SWR for complex client-side data fetching when needed
+- Handle auth-dependent data fetching properly
+- Cache data appropriately
+
+### Authentication
+- Use Supabase Auth UI components when possible
+- Implement proper auth state management
+- Handle auth redirects correctly
+- Protect routes with middleware
+- Manage user sessions properly
+
+### Error Handling
+- Always handle Supabase operation errors
+- Provide user-friendly error messages
+- Use error boundaries for unexpected errors
+- Log errors appropriately
+- Implement fallback UI states
+
+### Performance
+- Use Next.js Image component for images
+- Implement proper lazy loading
+- Minimize client-side JavaScript
+- Use static generation when possible
+- Optimize Core Web Vitals
+
+### Security
+- Never expose API keys in client code
+- Use environment variables for secrets
+- Implement proper CORS policies
+- Validate user input
+- Use Supabase RLS for data security
+
+## Code Examples
+
+### Component Structure
+```tsx
+interface ComponentProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+export function Component({ title, children }: ComponentProps) {
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold">{title}</h1>
+      {children}
+    </div>
+  );
+}
+```
+
+### Supabase Data Fetching
+```tsx
+import { createClient } from '@/lib/supabase/server';
+
+export async function getData() {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('table_name')
+    .select('*');
+    
+  if (error) {
+    throw new Error(error.message);
+  }
+  
+  return data;
+}
+```
+
+### Auth Check Pattern
+```tsx
+import { createClient } from '@/lib/supabase/server';
+import { redirect } from 'next/navigation';
+
+export default async function ProtectedPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) {
+    redirect('/login');
+  }
+  
+  return <div>Protected content</div>;
+}
+```
+
+## AI Assistant Instructions
+When working on this codebase:
+1. Always consider Next.js App Router patterns
+2. Prioritize Server Components for better performance
+3. Ensure type safety with TypeScript
+4. Follow Supabase SSR best practices
+5. Maintain consistent styling with Tailwind
+6. Handle auth states properly
+7. Implement proper error handling
+8. Consider accessibility in all components
+9. Optimize for performance and SEO
+10. Keep security best practices in mind
+
+### GitHub API Integration
+- Use GitHub's REST API for issue/PR data fetching across multiple NVIDIA repos
+- Support multiple repositories: TransformerEngine, Fuser
+- Implement proper rate limiting (5000 requests/hour shared across all repos)
+- Cache GitHub data appropriately to avoid hitting rate limits
+- Use personal access tokens securely via environment variables
+- Handle GitHub API pagination properly for large datasets
+- Type GitHub API responses with proper interfaces
+- Implement retry logic for failed API calls
+- Aggregate data across multiple repositories consistently
+
+### Bug Tracking Patterns
+- Create consistent interfaces for bug data models across all NVIDIA repos
+- Implement data aggregation functions for metrics (burn rate, trends) per repo and combined
+- Use proper date handling for bug lifecycle tracking across repositories
+- Create reusable chart components for bug visualizations with repo filtering
+- Implement filtering and sorting for bug lists by repository, labels, and status
+- Handle GitHub issue labels and metadata consistently across TransformerEngine, Fuser
+- Cache processed bug metrics to improve performance for multi-repo dashboards
+- Support repository comparison and cross-repo analytics
+
+### Data Visualization
+- Use Chart.js or similar for consistent chart styling
+- Create reusable chart components with TypeScript props
+- Implement responsive chart designs
+- Use consistent color schemes for bug status indicators
+- Handle loading states for chart data
+- Implement proper error boundaries for chart failures
+- Export chart data functionality when needed
+
+### External API Guidelines
+- Always handle network failures gracefully
+- Implement proper loading states for API calls
+- Use React Query or SWR for client-side API caching
+- Create dedicated service layers for GitHub API calls
+- Log API errors for debugging
+- Implement fallback data when APIs are unavailable
+- Use proper TypeScript types for all API responses
+
+## GitHub API Code Examples
+
+### GitHub Issue Fetching for Multiple Repos
+```tsx
+interface GitHubIssue {
+  id: number;
+  number: number;
+  title: string;
+  state: 'open' | 'closed';
+  labels: Array<{name: string; color: string}>;
+  created_at: string;
+  closed_at: string | null;
+  html_url: string;
+  repository: string; // Add repo identifier
+}
+
+type NVIDIARepo = 'TransformerEngine' | 'Fuser';
+
+export async function fetchGitHubIssues(
+  owner: string, 
+  repo: string, 
+  labels?: string[]
+): Promise<GitHubIssue[]> {
+  const params = new URLSearchParams({
+    state: 'all',
+    per_page: '100',
+    ...(labels && { labels: labels.join(',') })
+  });
+
+  const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/issues?${params}`,
+    {
+      headers: {
+        'Authorization': `token ${process.env.GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github.v3+json',
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`GitHub API error: ${response.status}`);
+  }
+
+  const issues = await response.json();
+  return issues.map((issue: any) => ({
+    ...issue,
+    repository: repo
+  }));
+}
+
+export async function fetchAllNVIDIARepoIssues(
+  labels?: string[]
+): Promise<GitHubIssue[]> {
+  const repos: NVIDIARepo[] = ['TransformerEngine', 'Thunder', 'NVFuser'];
+  const allIssues = await Promise.all(
+    repos.map(repo => fetchGitHubIssues('NVIDIA', repo, labels))
+  );
+  
+  return allIssues.flat();
+}
+```
+
+### Bug Metrics Calculation for Multiple Repos
+```tsx
+interface BugMetrics {
+  repository: string;
+  totalBugs: number;
+  openBugs: number;
+  closedBugs: number;
+  burnRate: number;
+  avgResolutionTime: number;
+}
+
+interface CombinedBugMetrics {
+  overall: BugMetrics;
+  byRepository: Record<NVIDIARepo, BugMetrics>;
+}
+
+export function calculateBugMetrics(issues: GitHubIssue[], repository?: string): BugMetrics {
+  const bugs = issues.filter(issue => 
+    issue.labels.some(label => label.name.toLowerCase().includes('bug'))
+  );
+  
+  const openBugs = bugs.filter(bug => bug.state === 'open').length;
+  const closedBugs = bugs.filter(bug => bug.state === 'closed').length;
+  const totalBugs = bugs.length;
+  
+  return {
+    repository: repository || 'All',
+    totalBugs,
+    openBugs,
+    closedBugs,
+    burnRate: totalBugs > 0 ? (closedBugs / totalBugs) * 100 : 0,
+    avgResolutionTime: calculateAvgResolutionTime(bugs),
+  };
+}
+
+export function calculateCombinedBugMetrics(allIssues: GitHubIssue[]): CombinedBugMetrics {
+  const repos: NVIDIARepo[] = ['TransformerEngine', 'Fuser'];
+  
+  const byRepository = repos.reduce((acc, repo) => {
+    const repoIssues = allIssues.filter(issue => issue.repository === repo);
+    acc[repo] = calculateBugMetrics(repoIssues, repo);
+    return acc;
+  }, {} as Record<NVIDIARepo, BugMetrics>);
+  
+  const overall = calculateBugMetrics(allIssues, 'All Repositories');
+  
+  return { overall, byRepository };
+}
+```
+
+### Chart Component Pattern for Multi-Repo Data
+```tsx
+interface BugChartProps {
+  data: CombinedBugMetrics;
+  className?: string;
+  title: string;
+  showRepository?: NVIDIARepo | 'all';
+}
+
+export function BugChart({ data, className, title, showRepository = 'all' }: BugChartProps) {
+  const chartData = showRepository === 'all' 
+    ? data.overall 
+    : data.byRepository[showRepository];
+    
+  return (
+    <div className={`bg-white p-6 rounded-lg shadow ${className}`}>
+      <h3 className="text-lg font-semibold mb-4">{title}</h3>
+      <div className="mb-4">
+        <select 
+          className="border rounded px-3 py-2"
+          value={showRepository}
+          onChange={(e) => setShowRepository(e.target.value as NVIDIARepo | 'all')}
+        >
+          <option value="all">All Repositories</option>
+          <option value="TransformerEngine">TransformerEngine</option>
+          <option value="Fuser">Fuser</option>
+        </select>
+      </div>
+      {/* Chart implementation with chartData */}
+    </div>
+  );
+}
+
+interface RepoComparisonChartProps {
+  data: CombinedBugMetrics;
+  metric: keyof BugMetrics;
+  className?: string;
+}
+
+export function RepoComparisonChart({ data, metric, className }: RepoComparisonChartProps) {
+  return (
+    <div className={`bg-white p-6 rounded-lg shadow ${className}`}>
+      <h3 className="text-lg font-semibold mb-4">Repository Comparison - {metric}</h3>
+      {/* Comparison chart showing all repos side by side */}
+    </div>
+  );
+}
+```
+
+## Environment Configuration for Multiple Repos
+```bash
+# .env.local - Ultra-Fast Configuration
+GITHUB_TOKEN=your_github_personal_access_token
+NEXT_PUBLIC_GITHUB_OWNER=NVIDIA
+
+# Repository configuration
+NEXT_PUBLIC_NVIDIA_REPOS=TransformerEngine,Fuser
+NEXT_PUBLIC_ENABLE_TRANSFORMER_ENGINE=true
+NEXT_PUBLIC_ENABLE_FUSER=true
+NEXT_PUBLIC_ENABLE_LIGHTNING_THUNDER=true
+
+# Ultra-Fast Performance Settings
+TURBOPACK=1
+NEXT_TELEMETRY_DISABLED=1
+GITHUB_API_CACHE_TTL=600000
+GITHUB_MAX_PAGES_SINGLE=30
+GITHUB_REQUEST_DELAY=75
+GITHUB_CONCURRENT_REQUESTS=4
+NODE_OPTIONS="--max-old-space-size=4096 --max-semi-space-size=512 --expose-gc"
+```
+
+## Common Patterns to Avoid
+- Don't use any types
+- Avoid mixing Server and Client Components incorrectly
+- Don't expose sensitive data to client
+- Avoid inline styles when Tailwind classes exist
+- Don't forget error handling for async operations
+- Avoid bypassing TypeScript strict checks
+- Don't hardcode GitHub API URLs without environment configuration
+- Avoid fetching GitHub data on every page load without caching
+- Don't ignore GitHub API rate limits (shared across all NVIDIA repos)
+- Avoid exposing GitHub tokens in client-side code
+- Don't fetch all repositories simultaneously without rate limiting
+- Avoid mixing data from different repositories without proper identification
+- Don't create separate interfaces for each repository - use generic types
+- Avoid hardcoding repository names - use the NVIDIARepo type
+- Don't ignore repository context in bug metrics and charts
+
+Note: Focus on NVIDIA/TransformerEngine and NVIDIA/Fuser repositories. 
+Thunder (Lightning-AI/lightning-thunder) is not an NVIDIA repository.
