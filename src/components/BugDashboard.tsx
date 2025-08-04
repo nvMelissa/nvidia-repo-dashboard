@@ -2,19 +2,48 @@
 
 // Main bug dashboard component following cursor rules
 import { useState, useEffect } from 'react';
-import { BugChart } from './BugChart';
-import { BugTrendChart } from './BugTrendChart';
-import { IssueTypeChart } from './IssueTypeChart';
-
-import { DeveloperActivityChart } from './DeveloperActivityChart';
-import { DORAMetrics } from './DORAMetrics';
-
 import { RepositorySelector } from './RepositorySelector';
-import { ImportantIssuesSummary } from './ImportantIssuesSummary';
-import { CommunityEngagementMetrics } from './CommunityEngagementMetrics';
 import type { GitHubIssue, CombinedBugMetrics, SupportedRepo } from '@/lib/github/types';
 import { calculateCombinedBugMetrics, generateBugTrends } from '@/lib/github/metrics';
 import { getMockBugTrends } from '@/lib/github/api';
+
+// Dynamic imports for chart components to prevent SSR issues
+import dynamic from 'next/dynamic';
+
+const BugChart = dynamic(() => import('./BugChart').then(mod => ({ default: mod.BugChart })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Chart...</div>
+});
+
+const BugTrendChart = dynamic(() => import('./BugTrendChart').then(mod => ({ default: mod.BugTrendChart })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Trends...</div>
+});
+
+const IssueTypeChart = dynamic(() => import('./IssueTypeChart').then(mod => ({ default: mod.IssueTypeChart })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Issue Types...</div>
+});
+
+const DeveloperActivityChart = dynamic(() => import('./DeveloperActivityChart').then(mod => ({ default: mod.DeveloperActivityChart })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Activity...</div>
+});
+
+const DORAMetrics = dynamic(() => import('./DORAMetrics').then(mod => ({ default: mod.DORAMetrics })), {
+  ssr: false,
+  loading: () => <div className="h-32 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Metrics...</div>
+});
+
+const ImportantIssuesSummary = dynamic(() => import('./ImportantIssuesSummary').then(mod => ({ default: mod.ImportantIssuesSummary })), {
+  ssr: false,
+  loading: () => <div className="h-48 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Issues...</div>
+});
+
+const CommunityEngagementMetrics = dynamic(() => import('./CommunityEngagementMetrics').then(mod => ({ default: mod.CommunityEngagementMetrics })), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-gray-100 rounded-lg animate-pulse flex items-center justify-center">Loading Community...</div>
+});
 
 // Display name mapping for repositories
 const REPO_DISPLAY_NAMES: Record<SupportedRepo, string> = {
