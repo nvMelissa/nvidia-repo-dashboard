@@ -129,15 +129,48 @@ export function BugDashboard({ initialIssues = [], initialRepository = 'all', cl
 
   if (loading && !metrics) {
     return (
-      <div className={`space-y-6 ${className}`}>
-        <div className="bg-white p-8 rounded-lg shadow-md border">
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        <div style={{
+          backgroundColor: 'white',
+          padding: '32px',
+          borderRadius: '8px',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          border: '1px solid #e5e7eb'
+        }}>
+          <div style={{
+            animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+          }}>
+            <div style={{
+              height: '16px',
+              backgroundColor: '#e5e7eb',
+              borderRadius: '4px',
+              width: '25%',
+              marginBottom: '16px'
+            }}></div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '16px'
+            }}>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="bg-gray-100 p-4 rounded-lg">
-                  <div className="h-3 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-6 bg-gray-200 rounded w-1/2"></div>
+                <div key={i} style={{
+                  backgroundColor: '#f3f4f6',
+                  padding: '16px',
+                  borderRadius: '8px'
+                }}>
+                  <div style={{
+                    height: '12px',
+                    backgroundColor: '#e5e7eb',
+                    borderRadius: '4px',
+                    width: '75%',
+                    marginBottom: '8px'
+                  }}></div>
+                  <div style={{
+                    height: '24px',
+                    backgroundColor: '#e5e7eb',
+                    borderRadius: '4px',
+                    width: '50%'
+                  }}></div>
                 </div>
               ))}
             </div>
@@ -149,21 +182,37 @@ export function BugDashboard({ initialIssues = [], initialRepository = 'all', cl
 
   if (error) {
     return (
-      <div className={`bg-red-50 border border-red-200 rounded-lg p-6 ${className}`}>
-        <div className="flex items-center mb-4">
-          <div className="flex-shrink-0">
-            <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+      <div style={{
+        backgroundColor: '#fef2f2',
+        border: '1px solid #fecaca',
+        borderRadius: '8px',
+        padding: '24px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+          <div style={{ flexShrink: 0 }}>
+            <svg style={{ height: '20px', width: '20px', color: '#f87171' }} viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
             </svg>
           </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">Error loading bug data</h3>
-            <p className="text-sm text-red-700 mt-1">{error}</p>
+          <div style={{ marginLeft: '12px' }}>
+            <h3 style={{ fontSize: '14px', fontWeight: '500', color: '#991b1b' }}>Error loading bug data</h3>
+            <p style={{ fontSize: '14px', color: '#b91c1c', marginTop: '4px' }}>{error}</p>
           </div>
         </div>
         <button
           onClick={refreshData}
-          className="bg-red-100 text-red-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-red-200 transition-colors"
+          style={{
+            backgroundColor: '#fee2e2',
+            color: '#991b1b',
+            padding: '8px 16px',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '500',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#fecaca'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#fee2e2'}
         >
           Try Again
         </button>
@@ -173,11 +222,28 @@ export function BugDashboard({ initialIssues = [], initialRepository = 'all', cl
 
   if (!metrics) {
     return (
-      <div className={`bg-yellow-50 border border-yellow-200 rounded-lg p-6 ${className}`}>
-                  <p className="text-yellow-800">No issue data available. Click refresh to load data.</p>
+      <div style={{
+        backgroundColor: '#fffbeb',
+        border: '1px solid #fde68a',
+        borderRadius: '8px',
+        padding: '24px'
+      }}>
+        <p style={{ color: '#92400e' }}>No issue data available. Click refresh to load data.</p>
         <button
           onClick={refreshData}
-          className="mt-3 bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md text-sm font-medium hover:bg-yellow-200 transition-colors"
+          style={{
+            marginTop: '12px',
+            backgroundColor: '#fef3c7',
+            color: '#92400e',
+            padding: '8px 16px',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: '500',
+            border: 'none',
+            cursor: 'pointer'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#fde68a'}
+          onMouseOut={(e) => e.target.style.backgroundColor = '#fef3c7'}
         >
           Load Issue Data
         </button>
@@ -186,20 +252,28 @@ export function BugDashboard({ initialIssues = [], initialRepository = 'all', cl
   }
 
   return (
-    <div className={`space-y-6 ${className}`}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       {/* Header with refresh */}
-      <div className="bg-white p-6 rounded-lg shadow-md border">
-        <div className="flex justify-between items-center">
+      <div style={{
+        backgroundColor: 'white',
+        padding: '24px',
+        borderRadius: '8px',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+        border: '1px solid #e5e7eb'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">NVIDIA Bug Dashboard</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 style={{ fontSize: '24px', fontWeight: 'bold', color: '#111827' }}>
+              ⚡ Lightning-Thunder Bug Dashboard
+            </h1>
+            <p style={{ color: '#6b7280', marginTop: '4px' }}>
               {selectedRepository === 'all' 
                 ? 'Tracking bugs across TransformerEngine, Fuser, and lightning-thunder repositories'
-                : `Tracking bugs in ${REPO_DISPLAY_NAMES[selectedRepository] || selectedRepository} repository`
+                : `Tracking bugs in ${selectedRepository === 'lightning-thunder' ? 'Lightning-AI/lightning-thunder' : REPO_DISPLAY_NAMES[selectedRepository] || selectedRepository} repository`
               }
             </p>
             {lastUpdated && (
-              <p className="text-sm text-gray-500 mt-1">
+              <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '4px' }}>
                 Last updated: {lastUpdated.toLocaleString()}
               </p>
             )}
@@ -207,7 +281,19 @@ export function BugDashboard({ initialIssues = [], initialRepository = 'all', cl
           <button
             onClick={refreshData}
             disabled={loading}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            style={{
+              backgroundColor: loading ? '#93c5fd' : '#2563eb',
+              color: 'white',
+              padding: '8px 16px',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: '500',
+              border: 'none',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.5 : 1
+            }}
+            onMouseOver={(e) => !loading && (e.target.style.backgroundColor = '#1d4ed8')}
+            onMouseOut={(e) => !loading && (e.target.style.backgroundColor = '#2563eb')}
           >
             {loading ? 'Refreshing...' : 'Refresh Data'}
           </button>
