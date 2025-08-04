@@ -1,6 +1,7 @@
 'use client';
 
 import { BugDashboard } from '@/components/BugDashboard'
+import { Suspense } from 'react'
 
 // Static page for GitHub Pages - all data fetching happens client-side
 export default function DashboardPage() {
@@ -10,10 +11,20 @@ export default function DashboardPage() {
         <div className="px-4 py-6 sm:px-0">
           
           {/* Bug Dashboard */}
-          <BugDashboard 
-            initialIssues={[]} 
-            initialRepository={'all'}
-          />
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-6">NVIDIA Repository Dashboard</h1>
+            <Suspense fallback={
+              <div className="bg-white rounded-lg shadow p-8 text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading Dashboard Components...</p>
+              </div>
+            }>
+              <BugDashboard 
+                initialIssues={[]} 
+                initialRepository={'all'}
+              />
+            </Suspense>
+          </div>
           
           {/* Additional Info Section */}
           <div className="mt-8 bg-white shadow rounded-lg p-6">
