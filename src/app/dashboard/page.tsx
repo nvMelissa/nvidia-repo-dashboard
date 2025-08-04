@@ -13,16 +13,31 @@ export default function DashboardPage() {
           {/* Bug Dashboard */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-6">NVIDIA Repository Dashboard</h1>
+            {/* Test if basic React works */}
+            <div className="bg-white rounded-lg shadow p-8 mb-6">
+              <h2 className="text-2xl font-bold text-green-600 mb-4">✅ React is Working!</h2>
+              <p className="text-gray-600 mb-4">If you see this green message, React components are loading correctly.</p>
+              <div className="bg-blue-50 border border-blue-200 rounded p-4">
+                <p className="text-blue-800 font-medium">Dashboard Status: Testing React Components</p>
+                <p className="text-blue-600 text-sm mt-1">This is a simplified test to isolate the issue.</p>
+              </div>
+            </div>
+
+            {/* Simplified Dashboard Test */}
             <Suspense fallback={
               <div className="bg-white rounded-lg shadow p-8 text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
                 <p className="text-gray-600">Loading Dashboard Components...</p>
               </div>
             }>
-              <BugDashboard 
-                initialIssues={[]} 
-                initialRepository={'all'}
-              />
+              <div className="bg-white rounded-lg shadow p-8">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">📊 Dashboard Components</h3>
+                <p className="text-gray-600 mb-4">Testing component loading...</p>
+                <BugDashboard 
+                  initialIssues={[]} 
+                  initialRepository={'all'}
+                />
+              </div>
             </Suspense>
           </div>
           
