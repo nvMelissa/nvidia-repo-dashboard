@@ -178,36 +178,97 @@ export default function DashboardPage() {
             </div>
           </div>
           
-          {/* Additional Info Section */}
-          <div className="mt-8 bg-white shadow rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">About This Dashboard</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-600">
+          {/* About Section with Inline Styles */}
+          <div style={{
+            marginTop: '32px',
+            backgroundColor: 'white',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+            borderRadius: '8px',
+            padding: '24px'
+          }}>
+            <h3 style={{
+              fontSize: '18px',
+              fontWeight: '600',
+              color: '#111827',
+              marginBottom: '16px'
+            }}>About This Lightning-Thunder Dashboard</h3>
+            
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+              gap: '24px',
+              fontSize: '14px',
+              color: '#4b5563'
+            }}>
               <div>
-                <h4 className="font-medium text-gray-900 mb-2">Data Sources</h4>
-                <ul className="space-y-1">
-                  <li>• NVIDIA/TransformerEngine</li>
-                  <li>• NVIDIA/Fuser</li>
-                  <li>• Lightning-AI/lightning-thunder</li>
+                <h4 style={{
+                  fontWeight: '500',
+                  color: '#111827',
+                  marginBottom: '8px'
+                }}>Data Sources</h4>
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0
+                }}>
+                  <li style={{ marginBottom: '4px' }}>• NVIDIA/TransformerEngine</li>
+                  <li style={{ marginBottom: '4px' }}>• NVIDIA/Fuser</li>
+                  <li style={{ marginBottom: '4px', fontWeight: '600', color: '#7c3aed' }}>• Lightning-AI/lightning-thunder</li>
                 </ul>
               </div>
+              
               <div>
-                <h4 className="font-medium text-gray-900 mb-2">Metrics Tracked</h4>
-                <ul className="space-y-1">
-                  <li>• Bug burn rate</li>
-                  <li>• Resolution time</li>
-                  <li>• Recent activity</li>
-                  <li>• Repository comparison</li>
+                <h4 style={{
+                  fontWeight: '500',
+                  color: '#111827',
+                  marginBottom: '8px'
+                }}>Metrics Tracked</h4>
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0
+                }}>
+                  <li style={{ marginBottom: '4px' }}>• Bug burn rate</li>
+                  <li style={{ marginBottom: '4px' }}>• Resolution time</li>
+                  <li style={{ marginBottom: '4px' }}>• Recent activity</li>
+                  <li style={{ marginBottom: '4px' }}>• Repository comparison</li>
                 </ul>
               </div>
+              
               <div>
-                <h4 className="font-medium text-gray-900 mb-2">Update Frequency</h4>
-                <ul className="space-y-1">
-                  <li>• Real-time via GitHub API</li>
-                  <li>• Manual refresh available</li>
-                  <li>• Rate limit: 5000/hour</li>
-                  <li>• Cached for performance</li>
+                <h4 style={{
+                  fontWeight: '500',
+                  color: '#111827',
+                  marginBottom: '8px'
+                }}>Update Frequency</h4>
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0
+                }}>
+                  <li style={{ marginBottom: '4px' }}>• Real-time via GitHub API</li>
+                  <li style={{ marginBottom: '4px' }}>• Manual refresh available</li>
+                  <li style={{ marginBottom: '4px' }}>• Rate limit: 5000/hour</li>
+                  <li style={{ marginBottom: '4px' }}>• Cached for performance</li>
                 </ul>
               </div>
+            </div>
+            
+            <div style={{
+              marginTop: '20px',
+              padding: '12px',
+              backgroundColor: '#f3f4f6',
+              borderRadius: '6px',
+              borderLeft: '4px solid #8b5cf6'
+            }}>
+              <p style={{
+                margin: 0,
+                fontSize: '14px',
+                color: '#374151',
+                fontStyle: 'italic'
+              }}>
+                ⚡ This dashboard is specifically optimized for tracking Lightning-AI/lightning-thunder repository metrics and team performance.
+              </p>
             </div>
           </div>
         </div>
