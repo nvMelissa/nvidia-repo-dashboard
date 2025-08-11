@@ -46,7 +46,7 @@ function isStaleIssue(issue: GitHubIssue): boolean {
   // Use updated_at if available, otherwise fall back to created_at
   const lastActivityDate = new Date(issue.updated_at || issue.created_at);
   const daysDiff = (now.getTime() - lastActivityDate.getTime()) / (1000 * 60 * 60 * 24);
-  return daysDiff > 30 && issue.state === 'open';
+  return daysDiff > 90 && issue.state === 'open';
 }
 
 function isOverdueIssue(issue: GitHubIssue): boolean {
@@ -127,7 +127,7 @@ export function ImportantIssuesSummary({
             <div className="ml-4">
               <div className="text-2xl font-bold text-yellow-900">{metrics.staleIssues}</div>
               <div className="text-sm font-medium text-yellow-700">Stale Issues</div>
-              <div className="text-xs text-yellow-600 mt-1">&gt;30d no activity</div>
+              <div className="text-xs text-yellow-600 mt-1">&gt;90d no activity</div>
             </div>
           </div>
         </div>

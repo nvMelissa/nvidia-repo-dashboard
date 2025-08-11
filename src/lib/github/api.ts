@@ -84,9 +84,10 @@ class GitHubApiService {
     const allIssues: any[] = [];
     let page = 1;
     let hasMorePages = true;
+    const maxPages = 15; // Limit to prevent rate limiting (15 pages = 1500 issues per repo)
 
-    // Fetch ALL pages for complete coverage (no limit for individual repos)
-    while (hasMorePages) {
+    // Fetch limited pages to prevent rate limiting
+    while (hasMorePages && page <= maxPages) {
       const params = new URLSearchParams({
         state,
         per_page: per_page.toString(),
@@ -120,9 +121,9 @@ class GitHubApiService {
         
         console.log(`📄 Fetched page ${page - 1} for ${repo}: ${actualIssues.length} issues (${issues.length - actualIssues.length} PRs filtered, total: ${allIssues.length})`);
         
-        // Add small delay between requests to respect rate limits
-        if (hasMorePages) {
-          await new Promise(resolve => setTimeout(resolve, 100));
+        // Add delay between requests to respect rate limits
+        if (hasMorePages && page <= maxPages) {
+          await new Promise(resolve => setTimeout(resolve, 200)); // Increased delay
         }
         
       } catch (error) {

@@ -18,7 +18,17 @@ export default function HomePage() {
             href="/dashboard"
             className="block w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            View Dashboard (Demo Mode)
+            Main Dashboard (Demo Mode)
+          </Link>
+          
+          <Link 
+            href="/trends"
+            className="block w-full bg-green-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-center"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4" />
+            </svg>
+            Trends Dashboard
           </Link>
           
           <Link 

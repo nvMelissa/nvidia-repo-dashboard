@@ -41,13 +41,13 @@ The NVIDIA Bug Dashboard provides three main perspectives on project health:
 
 | Alert Type | Definition | Action Needed |
 |------------|------------|---------------|
-| **🟡 Stale Issues** | No activity for 30+ days | Review and update or close |
+| **🟡 Stale Issues** | No activity for 90+ days | Review and update or close |
 | **🔴 Critical Issues** | High priority labels (P0, P1, urgent, blocker) | Immediate attention required |
 | **⚠️ Unassigned Critical** | High priority issues without owners | Assign responsibility |
 | **📅 Overdue Issues** | Past deadline or marked as overdue | Escalate or re-prioritize |
 
 **🚨 Red Flags:**
-- More than 20% of issues are stale
+- More than 20% of issues are stale (no activity for 90+ days)
 - Critical issues without assignees
 - Increasing trend in overdue issues
 
